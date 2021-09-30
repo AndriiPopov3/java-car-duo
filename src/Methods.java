@@ -2,7 +2,6 @@ import java.lang.*;
 import java.util.*;
 
 public class Methods {
-    static Storage database = new Storage();
 
     static Car[] convertCarArrListToArr(List<Car> arrList) {
         Car[] arr = new Car[arrList.size()];
@@ -16,45 +15,49 @@ public class Methods {
             System.out.print(x.id + " " + x.brand + " " + x.model + " " + x.releaseYear + " " + x.color + " " + x.price + " " + x.registrationNum + "\n");
     }
 
-    public static void getCarsByBrand(String brand) {
+    public static Car[] getCarsByBrand(Car[] cars, String brand) {
         List<Car> arrlist = new ArrayList<>();
-        for (int i = 0; i < Storage.cars.length; i++) {
-            if (Storage.cars[i].brand.equals(brand)) {
-                arrlist.add(Storage.cars[i]);
+        for (int i = 0; i < cars.length; i++) {
+            if (cars[i].brand.equals(brand)) {
+                arrlist.add(cars[i]);
             }
         }
         Car[] arr = convertCarArrListToArr(arrlist);
-        printArray(arr);
+        return arr;
     }
 
-    public static void getCarsByModelAndTime(String model, int time) {
+    public static Car[] getCarsByModelAndTime(Car[] cars, String model, int time) {
         int CURRENT_YEAR = 2021;
         List<Car> arrlist = new ArrayList<>();
-        for (int i = 0; i < Storage.cars.length; i++) {
-            if (Storage.cars[i].model.equals(model) && (CURRENT_YEAR - Storage.cars[i].releaseYear) > time) {
-                arrlist.add(Storage.cars[i]);
+        for (int i = 0; i < cars.length; i++) {
+            if (cars[i].model.equals(model) && (CURRENT_YEAR - cars[i].releaseYear) > time) {
+                arrlist.add(cars[i]);
             }
         }
         Car[] arr = convertCarArrListToArr(arrlist);
-        printArray(arr);
+        return arr;
     }
 
-    public static void getCarsByReleaseYearAndPrice(int releaseYear, int price) {
+    public static Car[] getCarsByReleaseYearAndPrice(Car[] cars, int releaseYear, int price) {
         List<Car> arrlist = new ArrayList<>();
-        for (int i = 0; i < Storage.cars.length; i++) {
-            if (Storage.cars[i].releaseYear == releaseYear && Storage.cars[i].price > price) {
-                arrlist.add(Storage.cars[i]);
+        for (int i = 0; i < cars.length; i++) {
+            if (cars[i].releaseYear == releaseYear && cars[i].price > price) {
+                arrlist.add(cars[i]);
             }
         }
         Car[] arr = convertCarArrListToArr(arrlist);
-        printArray(arr);
+        return arr;
     }
 
     public static void main(String[] args) {
-        getCarsByBrand("BMW");
+        Storage database = new Storage();
+        Car[] cars1 = getCarsByBrand(database.cars, "BMW");
+        printArray(cars1);
         System.out.println("-------------");
-        getCarsByModelAndTime("X5", 5);
+        Car[] cars2 = getCarsByModelAndTime(database.cars, "X5", 5);
+        printArray(cars2);
         System.out.println("-------------");
-        getCarsByReleaseYearAndPrice(2012, 14000);
+        Car[] cars3 = getCarsByReleaseYearAndPrice(database.cars, 2012, 14000);
+        printArray(cars3);
     }
 }
